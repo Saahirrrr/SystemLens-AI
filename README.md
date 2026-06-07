@@ -97,19 +97,22 @@ This allows users to instantly explore the Inventory Dashboard, Use Case Analysi
 ## Screenshots
 
 ### Landing Page
-*(Placeholder: Landing Page)*
+<img width="1470" height="832" alt="Landing Page" src="https://github.com/user-attachments/assets/f0f96b5c-3d4f-4257-92f4-8ebbbde32933" />
 
 ### Inventory Dashboard
-*(Placeholder: Inventory Dashboard)*
+<img width="1470" height="830" alt="Inventory 1" src="https://github.com/user-attachments/assets/775a1505-3ec4-4ca1-9c4d-5bd43f58b984" />
+<img width="1470" height="832" alt="Inventory 2" src="https://github.com/user-attachments/assets/e3ebc1ed-45bc-4676-b903-667fb22d2616" />
 
 ### Analysis Builder
-*(Placeholder: Analysis Builder)*
+<img width="1470" height="835" alt="Analysis " src="https://github.com/user-attachments/assets/55d78d74-fab1-4f0d-903f-d2e507e62e4d" />
 
 ### Results Dashboard
-*(Placeholder: Results Dashboard)*
+<img width="1470" height="829" alt="Result 1" src="https://github.com/user-attachments/assets/9bbb84e8-0740-4ffa-b8c9-63d92366a284" />
+<img width="1470" height="833" alt="Result 2" src="https://github.com/user-attachments/assets/0671897b-60ea-44fa-bd0c-5fcb33856e63" />
+<img width="1470" height="836" alt="Result 3" src="https://github.com/user-attachments/assets/f1eb5387-6b00-4dd3-97cd-8f53996fb233" />
 
 ### Artifact Generation
-*(Placeholder: Artifact Generation)*
+<img width="1470" height="805" alt="Artifact" src="https://github.com/user-attachments/assets/eee17d5c-fa0b-4863-8f0f-2f14f7cb02ad" />
 
 ## Local Setup
 
