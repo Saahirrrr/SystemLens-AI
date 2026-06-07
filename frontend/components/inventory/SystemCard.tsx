@@ -1,4 +1,4 @@
-import React from "react";
+import React from "react"; // Trigger IDE cache reset
 import { motion } from "framer-motion";
 import { SystemRecord } from "@/types";
 import { Card, CardContent } from "@/components/ui/card";

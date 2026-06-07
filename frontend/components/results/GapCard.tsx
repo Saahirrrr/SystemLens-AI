@@ -33,11 +33,12 @@ export function GapCard({ gap }: { gap: IntegrationGap }) {
       effort_estimate: gap.effort_estimate
     });
 
-    if (response.data) {
-      setArtifactData(response.data);
+    if (response.status === 200 && response.data && 'files' in (response.data as Record<string, unknown>)) {
+      setArtifactData(response.data as ArtifactData);
       setGenStatus("complete");
     } else {
-      setErrorMsg(response.error || "Generation failed.");
+      const errDetail = (response.data as unknown as Record<string, string>)?.detail;
+      setErrorMsg(errDetail || response.error || "Generation failed.");
       setGenStatus("error");
     }
   };

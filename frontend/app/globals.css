@@ -50,7 +50,6 @@ html {
     print-color-adjust: exact;
   }
 
-  .print\\:hidden,
   .no-print {
     display: none !important;
   }

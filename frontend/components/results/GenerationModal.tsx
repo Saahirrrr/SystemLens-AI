@@ -30,7 +30,7 @@ export function GenerationModal({ isOpen, onClose, status, data, error }: Genera
 
   if (!isOpen) return null;
 
-  const fileNames = data ? Object.keys(data.files) : [];
+  const fileNames = data?.files ? Object.keys(data.files) : [];
   const currentFile = selectedFile || (fileNames.length > 0 ? fileNames[0] : null);
 
   const handleDownload = () => {
@@ -166,7 +166,7 @@ export function GenerationModal({ isOpen, onClose, status, data, error }: Genera
                   </div>
                   <div className="flex-1 overflow-auto p-4">
                     <pre className="text-xs font-mono text-emerald-100/90 leading-relaxed whitespace-pre-wrap">
-                      {currentFile ? data.files[currentFile] : ""}
+                      {currentFile ? data?.files?.[currentFile] : ""}
                     </pre>
                   </div>
                   
