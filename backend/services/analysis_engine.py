@@ -8,94 +8,28 @@ and detects integration gaps with confidence-aware priority scoring.
 from __future__ import annotations
 
 import asyncio
+import json
 import logging
 from datetime import datetime
-from typing import Any, Literal
+from typing import Any
 
-from pydantic import BaseModel, Field
-
+from backend.models.analysis import (
+    AnalysisReport,
+    AnalysisResponse,
+    DataFlow,
+    IntegrationGap,
+    PriorityItem,
+    UseCase,
+    UseCaseMapping,
+)
 from backend.models.system import SystemRecord
 from backend.utils.gemini_client import GeminiClient
 
 logger = logging.getLogger(__name__)
 
 
-# ---------------------------------------------------------------------------
-# Models
-# ---------------------------------------------------------------------------
-
-class UseCase(BaseModel):
-    name: str
-    description: str
-    trigger: str
-    expected_outcome: str
-    stated_systems: list[str]
-
-
-class UseCaseMapping(BaseModel):
-    system_name: str
-    role: Literal["source", "destination", "orchestrator", "validator", "observer"]
-    relevance_reason: str
-    analysis_confidence: float
-
-
-class DataFlow(BaseModel):
-    source_system: str
-    destination_system: str
-    data_entity: str
-    direction: Literal["push", "pull", "bidirectional", "unknown"]
-    integration_type: Literal["API", "webhook", "file_transfer", "manual", "unknown"]
-    analysis_confidence: float
-
-
-class IntegrationGap(BaseModel):
-    source_system: str
-    destination_system: str
-    missing_data_entity: str
-    gap_reason: str
-    effort_estimate: Literal["low", "medium", "high"]
-    effort_reasoning: str
-    analysis_confidence: float
-    flagged_for_review: bool
-
-
-class PriorityItem(BaseModel):
-    rank: int
-    priority_tier: str
-    priority_score: float
-    source_system: str
-    destination_system: str
-    missing_data_entity: str
-    effort_estimate: str
-    business_impact_score: float
-    workflow_frequency_score: float
-    downstream_dependency_score: float
-    analysis_confidence: float
-    confidence_penalty: float
-    score_breakdown: dict[str, float]
-
-
-class AnalysisReport(BaseModel):
-    use_case_name: str
-    generated_at: str
-    gap_count: int
-    use_case_mappings: list[UseCaseMapping]
-    data_flows: list[DataFlow]
-    integration_gaps: list[IntegrationGap]
-    priority_report: list[PriorityItem]
-
-
-# Internal LLM Response Schema
-class AnalysisResponse(BaseModel):
-    use_case_name: str
-    use_case_mappings: list[UseCaseMapping]
-    data_flows: list[DataFlow]
-    integration_gaps: list[IntegrationGap]
-
-
 class AnalysisEngineError(Exception):
     """Raised when Level 2 analysis fails."""
-    pass
 
 
 # ---------------------------------------------------------------------------
@@ -263,7 +197,6 @@ class AnalysisEngine:
                 "business_processes": sys.business_processes
             })
 
-        import json
         inventory_json = json.dumps(inventory_data, indent=2)
 
         # 2. Run analysis concurrently per use case

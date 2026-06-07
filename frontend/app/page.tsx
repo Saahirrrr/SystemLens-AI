@@ -1,13 +1,35 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { ArrowRight, Box, Activity, Network } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Navbar } from "@/components/ui/navbar";
+import { ANALYSIS_STORAGE_KEY, SESSION_STORAGE_KEY } from "@/lib/constants";
+import { getDemoInventory, getDemoAnalysisResult } from "@/lib/demo-data";
 
 export default function Home() {
+  const router = useRouter();
+
+  const handleStartAnalysis = () => {
+    router.push("/upload");
+  };
+
+  const handleViewDemo = () => {
+    // Inject realistic demo data into localStorage
+    const demoInventory = getDemoInventory();
+    const demoResults = getDemoAnalysisResult();
+
+    localStorage.setItem(SESSION_STORAGE_KEY, "demo-session-001");
+    localStorage.setItem(ANALYSIS_STORAGE_KEY, JSON.stringify(demoResults));
+    // Also store demo inventory so /inventory works
+    localStorage.setItem("demo_inventory", JSON.stringify(demoInventory));
+
+    router.push("/results");
+  };
+
   return (
     <div className="min-h-screen flex flex-col relative overflow-hidden bg-background">
       {/* Background gradients */}
@@ -37,10 +59,19 @@ export default function Home() {
               AI-powered document analysis that automatically maps your IT systems, traces data flows, and surfaces actionable automation opportunities.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button size="lg" className="bg-white text-black hover:bg-white/90 h-12 px-8 text-base">
+              <Button
+                size="lg"
+                className="bg-white text-black hover:bg-white/90 h-12 px-8 text-base"
+                onClick={handleStartAnalysis}
+              >
                 Start Analysis <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
-              <Button size="lg" variant="outline" className="border-white/10 h-12 px-8 text-base bg-white/5 hover:bg-white/10 backdrop-blur-sm">
+              <Button
+                size="lg"
+                variant="outline"
+                className="border-white/10 h-12 px-8 text-base bg-white/5 hover:bg-white/10 backdrop-blur-sm"
+                onClick={handleViewDemo}
+              >
                 View Demo
               </Button>
             </div>

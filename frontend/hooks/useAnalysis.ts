@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { UseCase } from "@/types";
 import { apiClient } from "@/lib/api";
+import { ANALYSIS_STORAGE_KEY, DRAFT_STORAGE_KEY } from "@/lib/constants";
 
 export function useAnalysis() {
   const router = useRouter();
@@ -10,7 +11,7 @@ export function useAnalysis() {
   const [isLoaded, setIsLoaded] = useState(false);
 
   useEffect(() => {
-    const draft = localStorage.getItem("analysis_draft");
+    const draft = localStorage.getItem(DRAFT_STORAGE_KEY);
     if (draft) {
       try {
         // eslint-disable-next-line
@@ -24,7 +25,7 @@ export function useAnalysis() {
 
   const saveDraft = useCallback((newUseCases: UseCase[]) => {
     setUseCases(newUseCases);
-    localStorage.setItem("analysis_draft", JSON.stringify(newUseCases));
+    localStorage.setItem(DRAFT_STORAGE_KEY, JSON.stringify(newUseCases));
   }, []);
 
   const addUseCase = useCallback((useCase: UseCase) => {
@@ -50,8 +51,8 @@ export function useAnalysis() {
       const response = await apiClient.submitAnalysis(sessionId, payload);
       
       if (response.data) {
-        localStorage.setItem("analysis_result", JSON.stringify(response.data));
-        localStorage.removeItem("analysis_draft");
+        localStorage.setItem(ANALYSIS_STORAGE_KEY, JSON.stringify(response.data));
+        localStorage.removeItem(DRAFT_STORAGE_KEY);
         router.push("/results");
       } else {
         throw new Error(response.error || "Failed to submit analysis");

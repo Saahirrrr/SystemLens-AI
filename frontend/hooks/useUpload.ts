@@ -1,5 +1,6 @@
 import { useState, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
+import { SESSION_STORAGE_KEY } from '@/lib/constants';
 
 export interface UploadResponse {
   session_id: string;
@@ -51,7 +52,7 @@ export function useUpload() {
       setSuccessData(data);
       
       // Store session_id in localStorage
-      localStorage.setItem('discovery_session_id', data.session_id);
+      localStorage.setItem(SESSION_STORAGE_KEY, data.session_id);
 
       // Automatically navigate toward inventory workflow after delay
       setTimeout(() => {

@@ -45,7 +45,7 @@ from google.genai import types
 from google.genai.errors import APIError, ClientError
 from pydantic import BaseModel
 
-load_dotenv()
+load_dotenv(override=True)
 
 logger = logging.getLogger(__name__)
 
@@ -106,7 +106,7 @@ def _is_retryable(exc: Exception) -> bool:
     """
     if isinstance(exc, ClientError):
         # ClientError wraps HTTP 4xx; only 429 is retryable
-        return exc.status_code == 429
+        return exc.code == 429
     if isinstance(exc, APIError):
         # APIError covers 5xx server errors
         return True

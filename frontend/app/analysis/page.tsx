@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { apiClient } from "@/lib/api";
 import { SystemRecord, UseCase } from "@/types";
 import { useAnalysis } from "@/hooks/useAnalysis";
+import { SESSION_STORAGE_KEY } from "@/lib/constants";
 import { AnalysisHeader } from "@/components/analysis/AnalysisHeader";
 import { UseCaseList } from "@/components/analysis/UseCaseList";
 import { UseCaseForm } from "@/components/analysis/UseCaseForm";
@@ -35,13 +36,24 @@ export default function AnalysisPage() {
 
   useEffect(() => {
     const fetchInventory = async () => {
-      const id = localStorage.getItem("discovery_session_id");
+      const id = localStorage.getItem(SESSION_STORAGE_KEY);
       if (!id) {
         setSessionId(null);
         setLoadingSystems(false);
         return;
       }
       setSessionId(id);
+      
+      if (id === "demo-session-001") {
+        const demoInv = localStorage.getItem("demo_inventory");
+        if (demoInv) {
+          const parsed = JSON.parse(demoInv);
+          setSystems(parsed.systems || []);
+        }
+        setLoadingSystems(false);
+        return;
+      }
+
       try {
         const res = await apiClient.getInventory(id);
         if (res.data?.systems) {
@@ -102,6 +114,17 @@ export default function AnalysisPage() {
     setEditingUseCase(null);
   };
 
+  const handleStartAnalysis = async () => {
+    if (!sessionId) return;
+    
+    if (sessionId === "demo-session-001") {
+      router.push("/results");
+      return;
+    }
+
+    await submitAnalysis(sessionId);
+  };
+
   return (
     <div className="min-h-screen flex flex-col bg-background relative overflow-hidden pb-24">
       {isSubmitting && <AnalysisLoading />}
@@ -148,7 +171,7 @@ export default function AnalysisPage() {
         <AnalysisSubmitBar 
           useCaseCount={useCases.length} 
           onAdd={handleAddNew} 
-          onSubmit={() => submitAnalysis(sessionId)} 
+          onSubmit={handleStartAnalysis} 
           disabled={isSubmitting} 
         />
       )}

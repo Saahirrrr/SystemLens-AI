@@ -3,11 +3,12 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
-import { Loader2 } from "lucide-react";
+import { Loader2, ArrowRight } from "lucide-react";
 import { Navbar } from "@/components/ui/navbar";
 import { Button } from "@/components/ui/button";
 import { apiClient } from "@/lib/api";
 import { SystemRecord } from "@/types";
+import { SESSION_STORAGE_KEY } from "@/lib/constants";
 import { InventoryHeader } from "@/components/inventory/InventoryHeader";
 import { MetricsBar } from "@/components/inventory/MetricsBar";
 import { SystemGrid } from "@/components/inventory/SystemGrid";
@@ -27,9 +28,19 @@ export default function InventoryPage() {
 
   useEffect(() => {
     const fetchInventory = async () => {
-      const sessionId = localStorage.getItem("discovery_session_id");
+      const sessionId = localStorage.getItem(SESSION_STORAGE_KEY);
       if (!sessionId) {
         setNoSession(true);
+        setLoading(false);
+        return;
+      }
+
+      if (sessionId === "demo-session-001") {
+        const demoInv = localStorage.getItem("demo_inventory");
+        if (demoInv) {
+          const parsed = JSON.parse(demoInv);
+          setSystems(parsed.systems || []);
+        }
         setLoading(false);
         return;
       }
@@ -134,6 +145,23 @@ export default function InventoryPage() {
           systems={filteredSystems.filter(s => currentFilter === "Flagged" ? true : !s.flagged_for_review)} 
           onSystemClick={setSelectedSystem} 
         />
+
+        {/* Continue to Analysis CTA */}
+        {systems.length > 0 && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+            className="flex justify-center mt-12 mb-8"
+          >
+            <Button
+              onClick={() => router.push("/analysis")}
+              className="bg-gradient-to-r from-blue-600 to-emerald-500 hover:from-blue-500 hover:to-emerald-400 text-white h-12 px-8 text-base rounded-xl shadow-lg shadow-blue-500/20 hover:shadow-blue-500/30 transition-all"
+            >
+              Continue to Analysis <ArrowRight className="ml-2 h-4 w-4" />
+            </Button>
+          </motion.div>
+        )}
       </main>
 
       <EvidenceDrawer 

@@ -110,9 +110,6 @@ export function EvidenceDrawer({ system, onClose }: EvidenceDrawerProps) {
               </div>
             </div>
 
-            <div className="p-6 border-t border-white/10 bg-background/50 backdrop-blur-md">
-              <Button className="w-full bg-white text-black hover:bg-white/90">View Full Context</Button>
-            </div>
           </motion.div>
         </>
       )}
