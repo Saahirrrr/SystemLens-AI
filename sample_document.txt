@@ -1,0 +1,1 @@
+IT Systems Audit Report\n\nWe use Salesforce CRM for tracking all customer interactions. Salesforce is business critical and uses OAuth2 for authentication.\n\nFor HR, we use Workday. It manages Employee data and Payroll processes. Workday is critical and authenticates via SAML.
