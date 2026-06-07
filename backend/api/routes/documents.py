@@ -12,6 +12,7 @@ from pydantic import BaseModel
 
 from backend.services.document_parser import parse_document, DocumentParserError, UnsupportedFormatError
 from backend.services.system_extractor import SystemExtractor, SystemExtractionError
+from backend.utils.gemini_client import GeminiRetryExhaustedError
 from backend.storage.session_store import store_inventory
 
 router = APIRouter()
@@ -50,6 +51,14 @@ async def upload_document(
         systems = await extractor.extract_systems(parsed_doc)
         store_inventory(session_id, systems)
     except SystemExtractionError as e:
+        if isinstance(e.__cause__, GeminiRetryExhaustedError):
+            raise HTTPException(
+                status_code=429,
+                detail={
+                    "error": "quota_exceeded",
+                    "message": "AI extraction quota has been exhausted. Please use Demo Mode or try again later."
+                }
+            )
         raise HTTPException(status_code=500, detail=str(e))
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"System extraction failed: {e}")

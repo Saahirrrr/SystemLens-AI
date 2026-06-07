@@ -11,7 +11,7 @@ export interface UploadResponse {
 export function useUpload() {
   const [isUploading, setIsUploading] = useState(false);
   const [progress, setProgress] = useState(0);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<string | { error: string; message: string } | null>(null);
   const [successData, setSuccessData] = useState<UploadResponse | null>(null);
   const router = useRouter();
 
@@ -42,7 +42,11 @@ export function useUpload() {
       });
 
       if (!response.ok) {
-        throw new Error(`Upload failed with status ${response.status}`);
+        const errorData = await response.json().catch(() => null);
+        if (errorData?.detail && typeof errorData.detail === 'object') {
+          throw errorData.detail;
+        }
+        throw new Error(errorData?.detail || `Upload failed with status ${response.status}`);
       }
 
       const data: UploadResponse = await response.json();
@@ -61,7 +65,11 @@ export function useUpload() {
 
     } catch (err: unknown) {
       clearInterval(progressInterval);
-      setError(err instanceof Error ? err.message : 'An unexpected error occurred during upload.');
+      if (err && typeof err === 'object' && 'error' in err && (err as Record<string, unknown>).error === 'quota_exceeded') {
+        setError(err as { error: string; message: string });
+      } else {
+        setError(err instanceof Error ? err.message : 'An unexpected error occurred during upload.');
+      }
     } finally {
       setIsUploading(false);
     }

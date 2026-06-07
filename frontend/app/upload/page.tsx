@@ -4,6 +4,9 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowLeft, AlertCircle } from 'lucide-react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { ANALYSIS_STORAGE_KEY, SESSION_STORAGE_KEY } from '@/lib/constants';
+import { getDemoInventory, getDemoAnalysisResult } from '@/lib/demo-data';
 import { Navbar } from '@/components/ui/navbar';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -16,6 +19,16 @@ import { useUpload } from '@/hooks/useUpload';
 export default function UploadPage() {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const { isUploading, progress, error, successData, uploadFile } = useUpload();
+  const router = useRouter();
+
+  const handleViewDemo = () => {
+    const demoInventory = getDemoInventory();
+    const demoResults = getDemoAnalysisResult();
+    localStorage.setItem(SESSION_STORAGE_KEY, "demo-session-001");
+    localStorage.setItem(ANALYSIS_STORAGE_KEY, JSON.stringify(demoResults));
+    localStorage.setItem("demo_inventory", JSON.stringify(demoInventory));
+    router.push("/results");
+  };
 
   const handleFileSelect = (file: File) => {
     setSelectedFile(file);
@@ -78,10 +91,22 @@ export default function UploadPage() {
                       <div className="space-y-6">
                         <FilePreview file={selectedFile} onClear={handleClearFile} disabled={isUploading} />
                         
-                        {error && (
+                        {error && typeof error === 'string' && (
                           <div className="p-4 rounded-md bg-destructive/10 border border-destructive/20 flex items-start text-destructive text-red-500">
                             <AlertCircle className="w-5 h-5 mr-3 shrink-0 mt-0.5" />
                             <p className="text-sm">{error}</p>
+                          </div>
+                        )}
+                        {error && typeof error === 'object' && error.error === 'quota_exceeded' && (
+                          <div className="p-6 rounded-xl border border-blue-500/30 bg-blue-500/10 backdrop-blur-sm text-center">
+                            <h3 className="text-xl font-semibold mb-2">AI Extraction Temporarily Unavailable</h3>
+                            <p className="text-muted-foreground mb-6">
+                              The configured AI model has reached its quota limit. You can continue exploring the platform using Demo Mode.
+                            </p>
+                            <div className="flex gap-4 justify-center">
+                              <Button variant="outline" onClick={handleClearFile} className="border-white/10 text-white hover:bg-white/10">Dismiss</Button>
+                              <Button onClick={handleViewDemo} className="bg-blue-600 text-white hover:bg-blue-500">Use Demo Mode</Button>
+                            </div>
                           </div>
                         )}
 
