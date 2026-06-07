@@ -1,10 +1,27 @@
 # SystemLens AI
 
+![Next.js](https://img.shields.io/badge/Next.js-black?style=for-the-badge&logo=next.js&logoColor=white)
+![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white)
+![Python 3.11](https://img.shields.io/badge/Python_3.11-3776AB?style=for-the-badge&logo=python&logoColor=white)
+![Gemini](https://img.shields.io/badge/Gemini-8E75B2?style=for-the-badge&logo=googlebard&logoColor=white)
+![Level 3 Complete](https://img.shields.io/badge/Level_3-Complete-success?style=for-the-badge)
+
 ## Overview
 
 AI-Powered Enterprise Discovery, Integration Intelligence & Artifact Generation
 
 SystemLens AI is a comprehensive enterprise system designed to analyze uploaded technical documents, extract system inventories, identify missing integration gaps, and automatically generate production-ready code artifacts to bridge those gaps.
+
+## Key Capabilities
+
+- Discover enterprise systems from unstructured documentation
+- Extract evidence-backed inventories
+- Analyze business use cases
+- Identify integration gaps
+- Prioritize remediation opportunities
+- Generate implementation-ready integration artifacts
+- Export executive-ready reports
 
 ## Problem Statement
 
@@ -34,16 +51,14 @@ Enterprise systems are highly fragmented, and writing custom connectors to synch
 
 ```mermaid
 graph TD
-    A[Client User Interface] --> B[Next.js App Router]
-    B --> C[FastAPI Backend]
-    
-    C --> D[Document Parsing Engine]
-    C --> E[Analysis & Mapping Engine]
-    C --> F[Artifact Generation Engine]
-    
-    D --> G[Gemini AI Model]
-    E --> G
-    F --> G
+    A[Enterprise Documents] --> B[Document Processing]
+    B --> C[System Discovery]
+    C --> D[Inventory Dashboard]
+    D --> E[Use Case Analysis]
+    E --> F[Gap Detection Engine]
+    F --> G[Results Dashboard]
+    G --> H[Artifact Generator]
+    H --> I[Connector Bundle]
 ```
 
 ## Tech Stack
@@ -63,8 +78,38 @@ graph TD
 - **Model:** Google Gemini
 - **Strategy:** Structured schema extraction
 
+## Demo Mode
+
+SystemLens AI includes a built-in demonstration mode designed for immediate evaluation without requiring custom document uploads.
+
+The demo mode comes pre-loaded with realistic enterprise systems, including:
+- Workday
+- Okta
+- Salesforce
+- ServiceNow
+- Google Drive
+- Jira
+- Confluence
+- Microsoft Teams
+
+This allows users to instantly explore the Inventory Dashboard, Use Case Analysis, and Artifact Generation flows using rich, realistic enterprise data.
+
 ## Screenshots
-*(Add screenshots of the interface here)*
+
+### Landing Page
+*(Placeholder: Landing Page)*
+
+### Inventory Dashboard
+*(Placeholder: Inventory Dashboard)*
+
+### Analysis Builder
+*(Placeholder: Analysis Builder)*
+
+### Results Dashboard
+*(Placeholder: Results Dashboard)*
+
+### Artifact Generation
+*(Placeholder: Artifact Generation)*
 
 ## Local Setup
 
@@ -110,11 +155,19 @@ npm run dev
 
 ## Demo Flow
 
-1. **Upload:** Provide a system architecture document (PDF or text).
+1. **Upload:** Provide a system architecture document (PDF or text) or select **View Demo**.
 2. **Inventory:** Review the extracted systems and view context evidence.
 3. **Analysis:** Define business use cases (e.g., "Sync Employee Data from Workday to Jira").
 4. **Results:** View the analysis dashboard and identify critical integration gaps.
 5. **Artifact Generation:** Click "Generate Artifacts" on a gap card to receive a complete, deployable Python integration connector.
+
+## Business Impact
+
+SystemLens AI drastically reduces the manual effort traditionally required to:
+- Understand sprawling and complex enterprise landscapes.
+- Identify integration risks and unearth missing data flows.
+- Prioritize integration work based on critical automation gaps.
+- Generate implementation starter artifacts, significantly accelerating developer time-to-value.
 
 ## Future Improvements
 
