@@ -1,9 +1,12 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { IntegrationGap } from '@/types';
-import { AlertCircle, ArrowRight } from 'lucide-react';
+import { AlertCircle, ArrowRight, Code } from 'lucide-react';
 import { formatConfidence } from '@/lib/utils';
 import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { apiClient } from '@/lib/api';
+import { GenerationModal, ArtifactData } from './GenerationModal';
 
 export function GapCard({ gap }: { gap: IntegrationGap }) {
   const effortColors: Record<string, string> = {
@@ -12,6 +15,32 @@ export function GapCard({ gap }: { gap: IntegrationGap }) {
     high: "text-rose-400 border-rose-400/30 bg-rose-400/10",
   };
   const eColor = effortColors[gap.effort_estimate?.toLowerCase()] || effortColors.medium;
+
+  const [isModalOpen, setIsModalOpen] = React.useState(false);
+  const [genStatus, setGenStatus] = React.useState<"idle" | "generating" | "complete" | "error">("idle");
+  const [artifactData, setArtifactData] = React.useState<ArtifactData | null>(null);
+  const [errorMsg, setErrorMsg] = React.useState<string | null>(null);
+
+  const handleGenerate = async () => {
+    setIsModalOpen(true);
+    setGenStatus("generating");
+    setErrorMsg(null);
+    
+    const response = await apiClient.generateArtifacts({
+      source_system: gap.source_system,
+      destination_system: gap.destination_system,
+      missing_data_entity: gap.missing_data_entity,
+      effort_estimate: gap.effort_estimate
+    });
+
+    if (response.data) {
+      setArtifactData(response.data);
+      setGenStatus("complete");
+    } else {
+      setErrorMsg(response.error || "Generation failed.");
+      setGenStatus("error");
+    }
+  };
 
   return (
     <motion.div 
@@ -45,7 +74,24 @@ export function GapCard({ gap }: { gap: IntegrationGap }) {
         <div>
           Confidence: <span className="font-medium text-foreground">{formatConfidence(gap.analysis_confidence)}%</span>
         </div>
+        <Button 
+          variant="outline" 
+          size="sm" 
+          onClick={handleGenerate}
+          className="h-8 text-xs bg-white/5 border-white/10 hover:bg-emerald-500/20 hover:text-emerald-400 hover:border-emerald-500/30 transition-colors"
+        >
+          <Code className="w-3.5 h-3.5 mr-1.5" />
+          Generate Artifacts
+        </Button>
       </div>
+
+      <GenerationModal 
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        status={genStatus}
+        data={artifactData}
+        error={errorMsg}
+      />
     </motion.div>
   );
 }

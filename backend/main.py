@@ -7,7 +7,7 @@ FastAPI application entrypoint for Discovery Agent.
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from backend.api.routes import documents, inventory, analysis
+from backend.api.routes import documents, inventory, analysis, artifacts
 
 app = FastAPI(
     title="Discovery Agent API",
@@ -27,6 +27,7 @@ app.add_middleware(
 app.include_router(documents.router, prefix="/api/v1/documents", tags=["Documents"])
 app.include_router(inventory.router, prefix="/api/v1/inventory", tags=["Inventory"])
 app.include_router(analysis.router, prefix="/api/v1/analysis", tags=["Analysis"])
+app.include_router(artifacts.router, prefix="/api/v1/generate-artifacts", tags=["Artifacts"])
 
 @app.get("/health", tags=["Health"])
 def health_check():

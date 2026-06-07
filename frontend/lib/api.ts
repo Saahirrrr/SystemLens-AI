@@ -35,5 +35,8 @@ export const apiClient = {
       session_id: sessionId,
       use_cases: useCases
     });
+  },
+  async generateArtifacts(gap: { source_system: string, destination_system: string, missing_data_entity: string, effort_estimate: string }): Promise<ApiResponse<{ files: Record<string, string>, zip_base64: string }>> {
+    return this.post<{ files: Record<string, string>, zip_base64: string }>("/api/v1/generate-artifacts", gap);
   }
 };
