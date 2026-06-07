@@ -1,14 +1,16 @@
-# Discovery Agent
+# SystemLens AI
 
 ## Overview
 
-Discovery Agent is a comprehensive enterprise system designed to analyze uploaded technical documents, extract system inventories, identify missing integration gaps, and automatically generate production-ready code artifacts to bridge those gaps.
+AI-Powered Enterprise Discovery, Integration Intelligence & Artifact Generation
+
+SystemLens AI is a comprehensive enterprise system designed to analyze uploaded technical documents, extract system inventories, identify missing integration gaps, and automatically generate production-ready code artifacts to bridge those gaps.
 
 ## Problem Statement
 
 Enterprise systems are highly fragmented, and writing custom connectors to synchronize data between disjointed platforms is a manual, error-prone, and time-consuming process. The challenge was to build an intelligent platform spanning three levels of maturity:
 - **Level 1 (System Discovery):** Parse unstructured documents and isolate distinct technical systems.
-- **Level 2 (Analysis & Dashboarding):** Map business use cases to discovered systems, highlighting integration gaps and visualizing data flows.
+- **Level 2 (Use Case Mapping & Gap Analysis):** Map business use cases to discovered systems, highlighting integration gaps and visualizing data flows.
 - **Level 3 (Artifact Generation):** Automatically synthesize fully functioning, deployable connector code (Python scripts, tests, agent specifications) for the missing integrations.
 
 ## Features

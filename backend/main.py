@@ -10,7 +10,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from backend.api.routes import documents, inventory, analysis, artifacts
 
 app = FastAPI(
-    title="Discovery Agent API",
+    title="SystemLens AI API",
     description="API for parsing enterprise documents, extracting system inventories, and analyzing automation use cases.",
     version="1.0.0"
 )

@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Discovery Agent — Enterprise System Intelligence",
+  title: "SystemLens AI",
   description:
-    "AI-powered enterprise document analysis that maps your IT systems, traces data flows, and surfaces automation opportunities.",
+    "AI-powered enterprise intelligence platform that discovers systems, maps data flows, identifies integration gaps, and generates implementation-ready integration artifacts.",
 };
 
 export default function RootLayout({

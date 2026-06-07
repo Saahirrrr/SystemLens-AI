@@ -23,7 +23,7 @@ export function ExportBar({ data }: { data: AnalysisResultData }) {
   };
 
   const handleCopySummary = async () => {
-    const summary = `Discovery Agent — Automation Opportunity Report
+    const summary = `SystemLens AI — Automation Opportunity Report
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 
 Generated: ${new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}

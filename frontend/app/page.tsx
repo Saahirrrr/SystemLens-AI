@@ -47,7 +47,8 @@ export default function Home() {
           >
             <Badge variant="secondary" className="mb-6 px-4 py-1.5 text-sm glass border-white/10">
               <span className="flex h-2 w-2 rounded-full bg-emerald-400 mr-2 animate-pulse" />
-              System Intelligence V1.0 is live
+              SystemLens AI • Enterprise Intelligence
+              <span className="flex h-2 w-2 rounded-full bg-emerald-400 ml-2 animate-pulse" />
             </Badge>
             <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-6">
               Understand your <br className="hidden md:block" />
@@ -56,7 +57,7 @@ export default function Home() {
               </span>
             </h1>
             <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-8">
-              AI-powered document analysis that automatically maps your IT systems, traces data flows, and surfaces actionable automation opportunities.
+              AI-powered platform that discovers enterprise systems, maps data flows, identifies integration gaps, and generates implementation-ready integration artifacts.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Button
